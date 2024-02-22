@@ -207,6 +207,18 @@ def suma_de_numeros(lista, numero,visitados=[], k=-1,piso = 0,suma=0):
             return suma_de_numeros(lista,numero, visitados, k, suma=0)
 
 print(suma_de_numeros(l, 9))
+
+n = [1,4,3,2,7,5,9]
+def busqueda(lista, numero, j, i=0):
+    mid = len(lista)//2
+    if i > mid or mid > j:
+        return False
+    if lista[i] == numero or lista[j] == numero:
+        return True
+    else:
+        return busqueda(lista, numero, i=i+1, j=j) or busqueda(lista, numero, j=j-1, i=i)
+        
+print(busqueda(n, 20, len(n)-1))
     
         
     
