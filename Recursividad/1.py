@@ -183,28 +183,28 @@ def strings_repetidos3(enunciado, res={},i=0):
             return mayor
         
 l = [2,4,5]
-def suma_de_numeros(lista, numero,visitados=[], k=-1,piso = 0,suma=0):
+def suma_de_numeros(lista, numero,visitados=[], i=0,suma=0, no_pasar=[], k=0):
     if numero in lista:
         return True
+    if i == len(lista):
+        return False
     else:
-        k+=1
-        if piso < len(lista):
-            if lista[k] not in visitados:
-                visitados.append(lista[k])
-                for i in range(0, len(visitados)):
-                    suma += visitados[i]
-                if suma == numero:
-                    return True
-                else:
-                    if len(visitados) != len(lista):
-                        return suma_de_numeros(lista, numero, visitados, k, suma=0)
-                    else:
-                        visitados.remove(visitados[-1])
-                        return suma_de_numeros(lista, numero, visitados,k, suma=0)
+        if lista[i] in no_pasar:
+            visitados = visitados[:len(visitados)-1]
+            return False
+        elif lista[i] not in visitados:
+            visitados.append(lista[i])
+            no_pasar.append(lista[i])
+        for j in range(0, len(visitados)):
+            suma += visitados[j]
+        if suma == numero:
+            return True
         else:
-            visitados.remove(visitados[-1])
-            piso -= 1
-            return suma_de_numeros(lista,numero, visitados, k, suma=0)
+            if not(suma_de_numeros(lista, numero, visitados, i+1, suma=0, no_pasar=no_pasar,k=k) or suma_de_numeros(lista, numero, visitados[:len(visitados)-1], i+1, suma=0, no_pasar=no_pasar,k=k)):
+                k += 1
+                return suma_de_numeros(lista,numero,visitados=[],i=k,suma=0,no_pasar=[],k=k)
+            else:
+                return True
 
 print(suma_de_numeros(l, 9))
 
@@ -217,8 +217,6 @@ def busqueda(lista, numero, j, i=0):
         return True
     else:
         return busqueda(lista, numero, i=i+1, j=j) or busqueda(lista, numero, j=j-1, i=i)
-        
-print(busqueda(n, 20, len(n)-1))
     
         
     

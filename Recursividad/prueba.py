@@ -1,3 +1,3 @@
-lista = [1,22,3,4,5]
-lista.remove(lista[-1])
-print(lista)
+lista = [1,2,34,5,6,7,8]
+
+print(lista[:len(lista)-1])
