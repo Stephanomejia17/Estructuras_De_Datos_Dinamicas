@@ -187,27 +187,190 @@ def suma_de_numeros(lista, numero,visitados=[], k=-1,piso = 0,suma=0):
     if numero in lista:
         return True
     else:
-        k+=1
-        if piso < len(lista):
-            if lista[k] not in visitados:
-                visitados.append(lista[k])
-                for i in range(0, len(visitados)):
-                    suma += visitados[i]
+        k += 1
+        visitados.append([])
+        if k < len(lista):
+            if lista[k] not in visitados[piso]:
+                visitados[piso].append(lista[k])
+                for i in range(0, len(visitados[piso])):
+                    suma += visitados[piso][i]
                 if suma == numero:
                     return True
                 else:
-                    if len(visitados) != len(lista):
-                        return suma_de_numeros(lista, numero, visitados, k, suma=0)
+                    if len(visitados[piso]) != len(lista):
+                        return suma_de_numeros(lista, numero, visitados, k, piso, suma=0)
                     else:
-                        visitados.remove(visitados[-1])
-                        return suma_de_numeros(lista, numero, visitados,k, suma=0)
+                        return suma_de_numeros(lista, numero, visitados, piso=piso, k=0,suma=0)
         else:
-            visitados.remove(visitados[-1])
-            piso -= 1
-            return suma_de_numeros(lista,numero, visitados, k, suma=0)
-
-print(suma_de_numeros(l, 9))
-    
+            piso += 1
+            visitados.append([])
+            return suma_de_numeros(lista,numero, visitados, k, piso,suma=0)
         
-    
 
+#print(suma_de_numeros(l, 6))
+
+lista_de_busqueda = [1,10,15,90,101]
+def busqueda(lista, numero,j = 0,i = 0):
+    mid = (i+j)//2
+    j = len(lista)-1
+    if lista[mid] == numero:
+        return True
+    else:
+        if lista[mid] > numero:
+            j = mid - 1
+            return busqueda(lista, numero, i, j)
+        else:
+            i = mid + 1
+            return busqueda(lista, numero, i, j)
+    return False
+        
+#print(busqueda(lista_de_busqueda, 14))
+
+lista_de_busqueda = [1,10,15,90,101]
+
+def rec_binaria(lista, numero, i=0,j=0):
+    j = len(lista) - 1
+    if i == j:
+        return False
+    if lista[i] == numero or lista[j] == numero:
+        return True
+    else:
+        
+        return rec_binaria(lista, numero, i+1, j) or rec_binaria(lista, numero, i=0, j=j-1)
+        
+        
+        
+ 
+ 
+"""
+E1. Cree una función recursiva de cola que reciba un entero y retorne 
+cuántos dígitos de este número son múltiplos de 2 y de 4. Ignore el cero.
+
+Por ejemplo: si la función recibe el número 34523, deberá retornar 1 
+ya que hay sólo un número que es múltiplo de ambos números (el 4).
+"""   
+def e1(numero, res=0, numero_prov=0):
+    if numero < 1:
+        return res
+    else:
+        numero_prov = numero % 10
+        if numero_prov == 0:
+            return e1(numero=(numero//10), res=res, numero_prov=0)
+        elif (numero_prov % 2) == 0 and (numero_prov%4) == 0:
+            res += 1
+            return e1(numero=(numero//10), res=res, numero_prov=0)
+        else:
+            return e1(numero=(numero//10), res=res, numero_prov=0)
+            
+# assert(e1(12345) == 1)
+# assert(e1(3338883) == 3)
+# assert(e1(353535) == 0)
+# assert(e1(1908) == 1)
+
+"""
+E2. Cree una función no recursiva de cola que invierta sólo la segunda mitad de un string.
+
+Por ejemplo, si la función recibe "Hola", deberá retornar "Hoal".
+Asuma que el punto medio es tamaño//2
+"""
+
+def e2(palabra, mitad=0, i=0, j=-1,res=""):
+    mitad = len(palabra)//2
+    if len(res) == len(palabra):
+        return res
+    if palabra == "":
+        return res
+    else:
+        if i < mitad:
+            res += palabra[i]
+            return e2(palabra, mitad, i=i+1, j=j, res=res)
+        else:
+            res += palabra[j]
+            return e2(palabra, mitad,i,j=j-1, res=res)
+            
+
+#casos de prueba
+# assert(e2("") == "")
+# assert(e2("hola") == "hoal")
+# assert(e2("ay muchachos!") == "ay muc!sohcah")
+# assert(e2("Estructuras") == "Estrusarutc")     
+
+def e2(palabra, mitad=0, i=0, j=0,res=""):
+    mitad = len(palabra)//2
+    if palabra == "":
+        return res
+    else:
+        if j > -(mitad):
+            res += palabra[j]
+            return res + e2(palabra, mitad, i, j=j-1, res=res) + e2(palabra, mitad, i=i+1, j=j, res=res)
+            
+            
+            
+        
+            
+
+#casos de prueba
+#assert(e2("") == "")
+#assert(e2("hola") == "hoal")
+#assert(e2("ay muchachos!") == "ay muc!sohcah")
+#assert(e2("Estructuras") == "Estrusarutc")   
+        
+""" 
+E3. Cree una función recursiva de cola que calcule la sumatoria de todos los números impares de una matriz nxn.
+
+Por ejemplo, si la función recibe la matriz m = [[1,2],[3,4]], deberá retornar 4 porque los únicos números impares de esta matriz son 1 y 3.
+"""        
+def e3(matriz, i = 0, j = 0, res=0):
+    if i>len(matriz) and j > len(matriz[i]):
+        return res
+    else:
+        if matriz[i][j] % 2 != 0:
+            res += matriz[i][j]
+            return e3(matriz, i, j=j+1, res=res)
+        else:
+            return e3(matriz, i, j=j+1, res=res)
+
+#casos de prueba
+#assert(e3([]) == 0)
+#assert(e3([[1,2,3,4],[1,2,3,4],[5,6,7,8],[1,1,1,1]]) == 24)
+#assert(e3([[1,1,1],[0,0,0],[1,1,1]]) == 6)
+#assert(e3([[2,2],[0,0]]) == 0)
+    
+""" 
+E4. Cree una función recursiva que reciba una lista "l", un elemento "e" y un índice "i" y que retorne si el elemento "e" está en la lista "l" en la posición "i".
+
+Por ejemplo, si recibe la lista l = [1,2,3], e=2 y i=0, debería retornar False porque en la posición 0 de l no hay un 2.
+Nota: en este ejemplo se tendrá en cuenta el procedimiento para evitar que retornen False siempre y que pasen tres casos de prueba automáticamente.
+"""
+def e4(lista, elemento, i, j=0):
+    if elemento not in lista:
+        return False
+    if j == len(lista):
+        return False
+    else:
+        if i == j and elemento == lista[j]:
+            return True
+        else:
+            return e4(lista, elemento, i, j=j+1)
+#casos de prueba
+#assert(e4([1,2,3],2,0) == False)
+#assert(e4([1,1,1,1,1],2,1) == False)
+#assert(e4([0,0,1,1],0,1) == True)
+#assert(e4([],2,0) == False)
+
+
+m = [[6,[[5,[[3,[[[1,[[]]]],8]]]]]]]
+def e6(matriz, elemento, i=0, k=0):
+    if i >= len(matriz):
+        return k
+    else:
+        if elemento in matriz:
+            return k
+        elif type(matriz[i]) is list:
+            k+=1
+            return e6(matriz[i], elemento, i=0,k=k) 
+        else:
+            i+=1
+            return e6(matriz, elemento, i,k)
+        
+print(e6(m, 5))
