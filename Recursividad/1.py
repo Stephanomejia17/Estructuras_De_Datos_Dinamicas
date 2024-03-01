@@ -183,10 +183,13 @@ def strings_repetidos3(enunciado, res={},i=0):
             return mayor
         
 l = [2,4,5]
-def suma_de_numeros(lista, numero,visitados=[], k=-1,piso = 0,suma=0):
+def suma_de_numeros(lista, numero,visitados=[], i=0,suma=0, no_pasar=[], k=0):
     if numero in lista:
         return True
+    if i == len(lista):
+        return False
     else:
+<<<<<<< HEAD
         k += 1
         visitados.append([])
         if k < len(lista):
@@ -205,6 +208,37 @@ def suma_de_numeros(lista, numero,visitados=[], k=-1,piso = 0,suma=0):
             piso += 1
             visitados.append([])
             return suma_de_numeros(lista,numero, visitados, k, piso,suma=0)
+=======
+        if lista[i] in no_pasar:
+            visitados = visitados[:len(visitados)-1]
+            return False
+        elif lista[i] not in visitados:
+            visitados.append(lista[i])
+            no_pasar.append(lista[i])
+        for j in range(0, len(visitados)):
+            suma += visitados[j]
+        if suma == numero:
+            return True
+        else:
+            if not(suma_de_numeros(lista, numero, visitados, i+1, suma=0, no_pasar=no_pasar,k=k) or suma_de_numeros(lista, numero, visitados[:len(visitados)-1], i+1, suma=0, no_pasar=no_pasar,k=k)):
+                k += 1
+                return suma_de_numeros(lista,numero,visitados=[],i=k,suma=0,no_pasar=[],k=k)
+            else:
+                return True
+
+print(suma_de_numeros(l, 9))
+
+n = [1,4,3,2,7,5,9]
+def busqueda(lista, numero, j, i=0):
+    mid = len(lista)//2
+    if i > mid or mid > j:
+        return False
+    if lista[i] == numero or lista[j] == numero:
+        return True
+    else:
+        return busqueda(lista, numero, i=i+1, j=j) or busqueda(lista, numero, j=j-1, i=i)
+    
+>>>>>>> 9169697b66ead6d7d5cf6f276febfb3d6e99fad8
         
 
 #print(suma_de_numeros(l, 6))
