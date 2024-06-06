@@ -8,35 +8,36 @@ class GeneralTree:
     def __init__(self) -> None:
         self.root: Node = None
         self.Tam = 0
+
     
-    def add_child(self, parent, child, aux_Children = Node(), agregado = False):
-        if parent is None:
-            self.root = Node(child)
-            return
-        if agregado == True:
-            return
-        if len(self.root.children) == 0:
-            self.root.children.append(Node(child))
+    def add_child(self, parent = None, child = None, aux_iter = None, switch = 0):
+        if self.root is None:
+            new_parent = Node(child)
+            self.root = new_parent
+            self.Tam += 1
+            return True
+        elif self.Tam >= 1 and switch == 0:
+            aux_iter = self.root
+        if aux_iter.value == parent:
+            aux_iter.children.append(Node(child))
+            self.Tam += 1
+            return True
+        if len(aux_iter.children) != 0:
+            for i in range(0, len(aux_iter.children)):
+                if self.add_child(parent=parent, child=child, aux_iter=aux_iter.children[i], switch=1):
+                    return True
+        return False
             
-        else:
-            aux_Children = self.root
-        for i in range(len(aux_Children.children)):
-            if aux_Children.value == parent:
-                aux_Children.children.append(Node(child))
-                agregado = True
-                return
-            elif aux_Children.children[i].value == parent:
-                self.add_child(parent, child, aux_Children=aux_Children.children[i], agregado=agregado)
-            elif agregado == True:
-                break
+    def print_tree(self):
+        if not self.root:
+            print("Empty Tree")
+            return
 
-
-gt = GeneralTree()
-
-gt.add_child(parent=None, child=4)
-gt.add_child(parent=4, child=10)
-gt.add_child(parent=4, child=5)
-gt.add_child(parent=10, child=2)
-
-print(gt.root.value, gt.root.children[0].value, gt.root.children[1].value)
+        def print_node(node, prefix="", is_last=True):
+            print(prefix + ("└── " if is_last else "├── ") + str(node.value))
+            if node.children:
+                for i, child in enumerate(node.children):
+                    print_node(child, prefix + ("    " if is_last else "│   "), i == len(node.children) - 1)
+        
+        print_node(self.root)
 

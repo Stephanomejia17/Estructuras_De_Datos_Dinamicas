@@ -96,12 +96,6 @@ class BinarySearchTree:
                 return self.triangulos(aux_root=aux_root.left_child, cont=cont, izq=izq, der=der)
             elif aux_root.right_child is not None:
                 return self.triangulos(aux_root=aux_root.right_child, cont=cont, izq=izq, der=der)
-
-"""    def invertir(self, aux_root = None):
-        if aux_root is None:
-            aux_root = self.root
-        else:
-            """
         
 
     def print(self, node, prefix="", is_left=True):
@@ -126,5 +120,6 @@ bt.insert(3, bt.root)
 bt.insert(9, bt.root)
 
 bt.print(bt.root)
+bt.triangulos()
 
 print(bt.triangulos())

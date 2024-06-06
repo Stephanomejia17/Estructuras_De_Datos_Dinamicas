@@ -59,8 +59,29 @@ class Grafo:
         if not directed:
             self.matriz_adyacencia[v2_idx][v1_idx] = 1
             
-
     
+    """def DFS(self, label, index_i = 0, index_j = 0, visitados = []):
+        if label not in visitados:
+            visitados.append(label)
+            return self.DFS(label, index_i=index_i, index_j=index_j+1, visitados=visitados)
+        
+        else:
+            for i in range(0, len(self.values)):
+                if label == self.values[i]:
+                    index_i=i
+            for j in range(0, len(self.matriz_adyacencia)):
+                label = self.values[j]
+                if self.matriz_adyacencia[index_i][index_j] == 1 and label not in visitados:
+                    visitados.append(label)
+                    return self.DFS(label, index_i=j, index_j=0, visitados=visitados)"""
+                    
+    def DFS(self, label, index_i = 0, index_j = 0, visitados = []):
+        if label not in visitados:
+            visitados.append(label)
+            index_i = self.values.index(label)
+            return index_i
+            
+
     def visualizar(self):
         for i in range(0, len(self.matriz_adyacencia)):
             print(self.matriz_adyacencia[i])
@@ -78,5 +99,9 @@ g1.add_edge(5,2, True)
 g1.add_edge(3,4, True)
 g1.add_edge(2,3, True)
 
+print("Values: ", g1.values)
 g1.visualizar()
+print("DFS: ", g1.DFS(4))
+
+
 

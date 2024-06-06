@@ -43,11 +43,31 @@ class BinaryTree:
                 return True
         return False
     
-    """def altura(self, node: Node):
-        if self.root is None:
-            return self.altura
+    # 0.8
+    def ruta(self, node, route = [], max_rout = 0, max_values = [],switch = 0):
+        if node.left_child is None and node.right_child is None:
+            route.append(node.value)
+            if len(route) >= max_rout:
+                max_rout = len(route)
+                max_values = [route[i] for i in range(0, len(route))]
+
+            return max_values, max_rout
+
+        
         else:
-            if node.left_child is not None:"""
+            route.append(node.value)
+            for i in range(0, 2):
+                if i == 0 and node.left_child is not None:
+                    max_values, max_rout = self.ruta(node.left_child, route=route, max_rout=max_rout, max_values=max_values)
+                elif i == 1 and node.right_child is not None:
+                    route.pop()
+                    max_values, max_rout = self.ruta(node.right_child, route=route, max_rout=max_rout, max_values=max_values)
+                
+            route.pop()
+            return max_values, max_rout
+        
+    
+            
             
     
     def print(self, node, prefix="", is_left=True):
@@ -60,7 +80,7 @@ class BinaryTree:
         if node.left_child:
             self.print(node.left_child, prefix + ("    " if is_left else "│   "), True)
             
-bt = BinaryTree()
+"""bt = BinaryTree()
 
 bt.insert(1, 2, bt.root)
 bt.insert(1, 3, bt.root)
@@ -75,7 +95,19 @@ bt.insert(8, 5, bt.root)
 bt.insert(8, 6, bt.root)
 bt.insert(8, 7, bt.root)
 bt.insert(8, 8, bt.root)
+bt.insert(6, 6, bt.root)
+bt.insert(6, 6, bt.root)
+bt.insert(8, 10, bt.root)
+bt.insert(10, 5, bt.root)
+bt.insert(5, 3, bt.root)
+bt.insert(5, 3, bt.root)
+bt.insert(5, 100, bt.root)
+bt.insert(5, 100, bt.root)
+bt.insert(5, 100, bt.root)
 
-print(bt.altura)
+
+
+
 
 bt.print(bt.root)
+print(bt.ruta(bt.root))"""
