@@ -183,9 +183,11 @@ def strings_repetidos3(enunciado, res={},i=0):
             return mayor
         
 l = [2,4,5]
-def suma_de_numeros(lista, numero,visitados=[], k=-1,piso = 0,suma=0):
+def suma_de_numeros(lista, numero,visitados=[], i=0,suma=0, no_pasar=[], k=0):
     if numero in lista:
         return True
+    if i == len(lista):
+        return False
     else:
         k += 1
         visitados.append([])
